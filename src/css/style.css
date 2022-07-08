@@ -2,32 +2,105 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    text-decoration: none;
+    color: inherit;
 }
 .container{
     max-width: 1400px;
     width: 100%;
     margin: 0 auto;
 }
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}
 
 .postList{
-    margin-bottom: 15px;
+    margin-bottom: 115px;
     display: flex;
-
 }
+.postBlock{
+    border: 1px solid grey;
+    cursor: pointer;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    padding: 20px 10px;
+    min-height: 200px;
+}
+
+
+.header-under__cont{
+    position: relative;
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    margin-bottom: 150px;
+}
+.header-under__icon img{
+    height: 20px;
+}
+.header-under__icon{
+    position: absolute;
+    top: 60%;
+    transform: translateY(-50%);
+    left: 10px;
+}
+.header-under__search{
+    width: 300px;
+    height: 28px;
+    padding-left: 40px;
+    background: #FFFFFF;
+    border: 1px solid red;
+    border-radius: 18px;
+    outline: none;
+    margin-left: auto;
+    justify-self: flex-end;
+}
+.header-under__btn{
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: goldenrod;
+    border-radius: 0 18px 18px 0;
+    border: none;
+    height: 30px;
+    width: 89px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 120%;
+    color: #363A45;
+}
+
+
 #pagination{
     display: flex;
     justify-content: center;
     list-style: none;
-    gap: 20px;
+    gap: 15px;
 }
 
 .pagination-btn{
-    padding: 5px;
+    padding: 5px 10px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     margin-bottom: 40px;
+    transition: all .3s;
+    border: 1px solid transparent;
 }
 .pagination-btn:hover{
     color: red;
+    border: 1px solid red;
+    border-radius: 10px;
+}
+.pagination-btn.active{
+    color: black;
+    border: 1px solid goldenrod;
+    border-radius: 10px;
 }
