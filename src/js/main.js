@@ -8,7 +8,7 @@ let searchPosts = [];
 
 let authors;
 let showPosts = (arr) =>{
-    arr.map(post =>{
+    arr.slice(0, 4).map(post =>{
         const a = document.createElement('a');
         a.addEventListener( 'click', () => {
             localStorage.setItem('authorId', post.userId);
@@ -22,6 +22,7 @@ let showPosts = (arr) =>{
             `;
 
         postsList.append(a)
+
     });
 };
 
@@ -35,42 +36,46 @@ const getPosts = async () =>{
     }).then(data => authors = data);
 
 
+
+    let showPagination = (arr) =>{
+        pagination.innerHTML = '';
+        for (let i = 1; i <= arr.length / postsOnPage + 1;  i++){
+            pagination.innerHTML += `
+          <li class="pagination-btn">${i}</li>
+         `;
+            const paginationBtn = document.querySelectorAll('.pagination-btn');
+            paginationBtn.forEach(item => item.addEventListener('click' , (e) =>{
+                paginationBtn.forEach(el => el.classList.remove('active'));
+                item.classList.add('active');
+
+                postsList.innerHTML = '';
+                const pageNum = e.target.innerHTML;
+                let start = (pageNum - 1) * postsOnPage;
+                let end = start + postsOnPage;
+                const postPage = arr.slice(start, end);
+
+                showPosts(postPage);
+            } ))
+
+        }
+    };
+    showPagination(posts);
+
+
+
+
     form.addEventListener('submit' , (e) =>{
         e.preventDefault();
         search = e.target[0].value.toLowerCase();
         console.log(search);
-        searchPosts = posts.filter(item => item.title.startsWith(search));
+        let searchPosts = posts.filter(item => item.title.startsWith(search));
         console.log(searchPosts);
         postsList.innerHTML = '';
-        showPosts(searchPosts)
+        showPosts(searchPosts);
+        showPagination(searchPosts)
     });
 
 
-
-     for (let i = 1; i <= posts.length / postsOnPage; i++){
-         pagination.innerHTML += `
-          <li class="pagination-btn">${i}</li>
-         `;
-         const paginationBtn = document.querySelectorAll('.pagination-btn');
-         paginationBtn.forEach(item => item.addEventListener('click' , (e) =>{
-             paginationBtn.forEach(el => el.classList.remove('active'));
-             item.classList.add('active');
-
-             postsList.innerHTML = '';
-             const pageNum = e.target.innerHTML;
-             let start = (pageNum - 1) * postsOnPage;
-             let end = start + postsOnPage;
-             const postPage = posts.slice(start, end);
-
-         showPosts(postPage);
-
-        } ))
-
-
-
-
-    }
-    form[0].value= 'q';
 
      showPosts(posts.slice(0, postsOnPage))
       // const title = document.createElement('h2');
