@@ -2,13 +2,12 @@ const postsList = document.querySelector('.postList');
 const postsOnPage = 4;
 const pagination = document.querySelector('#pagination');
 const form = document.querySelector('.header-under__form');
-let search = '';
 let posts = [];
 let searchPosts = [];
 
 let authors;
 let showPosts = (arr) =>{
-    arr.slice(0, 4).map(post =>{
+    arr.slice(0, postsOnPage).map(post =>{
         const a = document.createElement('a');
         a.addEventListener( 'click', () => {
             localStorage.setItem('authorId', post.userId);
@@ -39,7 +38,7 @@ const getPosts = async () =>{
 
     let showPagination = (arr) =>{
         pagination.innerHTML = '';
-        for (let i = 1; i <= arr.length / postsOnPage + 1;  i++){
+        for (let i = 1; i <= Math.ceil(arr.length / postsOnPage);  i++){
             pagination.innerHTML += `
           <li class="pagination-btn">${i}</li>
          `;
@@ -62,14 +61,22 @@ const getPosts = async () =>{
     showPagination(posts);
 
 
-
-
-    form.addEventListener('submit' , (e) =>{
+    console.log(form[0])
+    form[0].addEventListener('keyup' , (e) =>{
         e.preventDefault();
-        search = e.target[0].value.toLowerCase();
+        let search = e.target.value.toLowerCase().trim();
         console.log(search);
-        let searchPosts = posts.filter(item => item.title.startsWith(search));
-        console.log(searchPosts);
+        console.log(authors.filter(user => user.name.toLowerCase().startsWith(search)));
+    // || authors.filter(user => user.name === search)[0].id === item.userId
+         searchPosts = posts.filter(item => item.title.startsWith(search) || item.body.startsWith(search) || authors.filter(user => user.name.toLowerCase().startsWith(search))[0]?.id === item.userId);
+
+
+         if (!searchPosts.length){
+             return  postsList.innerHTML = `
+             <h1>There is no such post</h1>
+             `;
+         }
+        // console.log(searchPosts);
         postsList.innerHTML = '';
         showPosts(searchPosts);
         showPagination(searchPosts)
@@ -77,7 +84,7 @@ const getPosts = async () =>{
 
 
 
-     showPosts(posts.slice(0, postsOnPage))
+     showPosts(posts)
       // const title = document.createElement('h2');
       // title.textContent = post.title;
       // const author = document.createElement('h3');

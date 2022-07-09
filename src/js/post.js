@@ -19,11 +19,11 @@ const getPost = async () => {
     postPage.innerHTML = `
         <h3>
             ${author.name}
-            <span>${author.company.name}</span>
+            <span>company:${author.company.name}</span>
         </h3>
         <p>${author.company.bs}</p>
-        <h2>${post.title}</h2>
-        <h3>${post.body}</h3>
+        <h2>title:${post.title}</h2>
+        <h3>body:${post.body}</h3>
         <p>${author.website}</p>
         <p>${author.phone}</p>
     `
