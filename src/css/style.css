@@ -34,7 +34,7 @@ main{
 }
 
 
-.header-under__cont{
+.header-under__form{
     position: relative;
     display: flex;
     width: fit-content;
