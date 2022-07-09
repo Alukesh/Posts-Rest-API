@@ -66,9 +66,17 @@ const getPosts = async () =>{
         e.preventDefault();
         let search = e.target.value.toLowerCase().trim();
         console.log(search);
-        console.log(authors.filter(user => user.name.toLowerCase().startsWith(search)));
+        // console.log(authors.filter(user => user.name.toLowerCase().startsWith(search)));
+        console.log(authors.filter(user => console.log(user.name.toLowerCase().split(' ').filter(part =>
+            part.startsWith(search)
+        ))));
+        // console.log(authors.filter(user => user.name.toLowerCase().split(' ').filter(part =>{
+        //     part.startsWith(search)
+        // }).join()));
     // || authors.filter(user => user.name === search)[0].id === item.userId
-         searchPosts = posts.filter(item => item.title.startsWith(search) || item.body.startsWith(search) || authors.filter(user => user.name.toLowerCase().startsWith(search))[0]?.id === item.userId);
+         searchPosts = posts.filter(item => item.title.startsWith(search) || item.body.startsWith(search) || authors.filter(user => user.name.toLowerCase().split(' ').filter(part =>
+             part.startsWith(search)
+         ).join().startsWith(search))[0]?.id === item.userId);
 
 
          if (!searchPosts.length){
