@@ -16,6 +16,7 @@ let showPosts = (arr) =>{
         a.setAttribute('href', './post.html');
         a.classList.add('postBlock');
         a.innerHTML = `
+            <img class="postBlock-pen" src="https://img.icons8.com/fluency/48/000000/pen.png"/>
             <h2>${post.title}</h2>
             <h3>${authors.filter(user => user.id === post.userId)[0].name}</h3>
             `;
@@ -62,8 +63,8 @@ const getPosts = async () =>{
 
 
     console.log(form[0])
+    form.addEventListener('submit', (e) => e.preventDefault() );
     form[0].addEventListener('keyup' , (e) =>{
-        e.preventDefault();
         let search = e.target.value.toLowerCase().trim();
         console.log(search);
         // console.log(authors.filter(user => user.name.toLowerCase().startsWith(search)));
@@ -84,7 +85,6 @@ const getPosts = async () =>{
              <h1>There is no such post</h1>
              `;
          }
-        // console.log(searchPosts);
         postsList.innerHTML = '';
         showPosts(searchPosts);
         showPagination(searchPosts)

@@ -31,8 +31,14 @@ main{
     text-align: center;
     padding: 20px 10px;
     min-height: 200px;
+    position: relative;
 }
-
+.postBlock-pen{
+    width: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
 
 .header-under__form{
     position: relative;
@@ -100,7 +106,7 @@ main{
     border-radius: 10px;
 }
 .pagination-btn.active{
-    color: black;
+    color: red;
     border: 1px solid goldenrod;
     border-radius: 10px;
 }
