@@ -5,23 +5,38 @@ const form = document.querySelector('.header-under__form');
 let posts = [];
 let searchPosts = [];
 
+// const deletePost = (id) =>{
+//     fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+//         method: 'DELETE'
+//     }).then(res => console.log(`post${id} deleted`)).catch(err => console.log(err));
+// };
+
+
 let authors;
 let showPosts = (arr) =>{
     arr.slice(0, postsOnPage).map(post =>{
-        const a = document.createElement('a');
-        a.addEventListener( 'click', () => {
+        const div = document.createElement('div');
+        div.classList.add('postBlock');
+        div.addEventListener( 'click', () => {
             localStorage.setItem('authorId', post.userId);
             localStorage.setItem('postId', post.id)
         });
-        a.setAttribute('href', './post.html');
-        a.classList.add('postBlock');
-        a.innerHTML = `
-            <img class="postBlock-pen" src="https://img.icons8.com/fluency/48/000000/pen.png"/>
-            <h2>${post.title}</h2>
-            <h3>${authors.filter(user => user.id === post.userId)[0].name}</h3>
+        const pen = document.createElement('img');
+        pen.classList.add('postBlock-pen');
+        pen.setAttribute('src', "https://img.icons8.com/fluency/48/000000/pen.png");
+        pen.addEventListener('click' , () => alert('ho'));
+        const delBtn = document.createElement('div');
+        delBtn.innerText = 'delete';
+        delBtn.addEventListener('click', () =>{})
+        div.innerHTML = `
+            <a class="postBlock-link" href="./post.html">
+                <h2>${post.title}</h2>
+                <h3>${authors.filter(user => user.id === post.userId)[0].name}</h3>
+            </a>
             `;
-
-        postsList.append(a)
+        div.append(pen);
+        div.append(delBtn);
+        postsList.append(div)
 
     });
 };
@@ -30,36 +45,34 @@ let showPosts = (arr) =>{
 const getPosts = async () =>{
    await fetch('https://jsonplaceholder.typicode.com/posts').then(res => {
         return res.json()
-    }).then(data => posts = data);
+    }).then(data => posts = data).catch(err => console.log(err));
     await fetch('https://jsonplaceholder.typicode.com/users').then(res => {
         return res.json()
-    }).then(data => authors = data);
+    }).then(data => authors = data).catch(err => console.log(err));
 
+        let showPagination = (arr) =>{
+            pagination.innerHTML = '';
+            for (let i = 1; i <= Math.ceil(arr.length / postsOnPage);  i++){
+                pagination.innerHTML += `
+              <li class="pagination-btn">${i}</li>
+             `;
+                const paginationBtn = document.querySelectorAll('.pagination-btn');
+                paginationBtn.forEach(item => item.addEventListener('click' , (e) =>{
+                    paginationBtn.forEach(el => el.classList.remove('active'));
+                    item.classList.add('active');
 
+                    postsList.innerHTML = '';
+                    const pageNum = e.target.innerHTML;
+                    let start = (pageNum - 1) * postsOnPage;
+                    let end = start + postsOnPage;
+                    const postPage = arr.slice(start, end);
 
-    let showPagination = (arr) =>{
-        pagination.innerHTML = '';
-        for (let i = 1; i <= Math.ceil(arr.length / postsOnPage);  i++){
-            pagination.innerHTML += `
-          <li class="pagination-btn">${i}</li>
-         `;
-            const paginationBtn = document.querySelectorAll('.pagination-btn');
-            paginationBtn.forEach(item => item.addEventListener('click' , (e) =>{
-                paginationBtn.forEach(el => el.classList.remove('active'));
-                item.classList.add('active');
+                    showPosts(postPage);
+                } ))
 
-                postsList.innerHTML = '';
-                const pageNum = e.target.innerHTML;
-                let start = (pageNum - 1) * postsOnPage;
-                let end = start + postsOnPage;
-                const postPage = arr.slice(start, end);
-
-                showPosts(postPage);
-            } ))
-
-        }
-    };
-    showPagination(posts);
+            }
+        };
+        showPagination(posts);
 
 
     console.log(form[0])
@@ -79,11 +92,10 @@ const getPosts = async () =>{
              part.startsWith(search)
          ).join().startsWith(search))[0]?.id === item.userId);
 
-
-         if (!searchPosts.length){
-             return  postsList.innerHTML = `
-             <h1>There is no such post</h1>
-             `;
+     if (!searchPosts.length){
+         return  postsList.innerHTML = `
+         <h1>There is no such post</h1>
+         `;
          }
         postsList.innerHTML = '';
         showPosts(searchPosts);
@@ -91,17 +103,7 @@ const getPosts = async () =>{
     });
 
 
-
      showPosts(posts)
-      // const title = document.createElement('h2');
-      // title.textContent = post.title;
-      // const author = document.createElement('h3');
-      // author.textContent = authors.filter(user => user.id === post.userId)[0].name;
-      // a.append(title, author);
-      // postsList.append(a)
-
-        // console.log(authors.filter(user =>{ return   user.id === post.userId}))
-
 };
 getPosts();
 
