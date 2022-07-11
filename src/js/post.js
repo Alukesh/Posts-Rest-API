@@ -5,8 +5,6 @@ const form = document.querySelector('.header-under__form');
 const postsList = document.querySelector('.postList');
 let posts = [];
 let searchPosts = [];
-// console.log(authorId)
-// console.log(postId)
 const redact = document.querySelector('.top-pen');
 let post ;
 let author ;
@@ -66,7 +64,25 @@ searchForm();
 
 
 
-
+const savePost = () =>{
+    const title = document.querySelector('#input-title');
+    const body = document.querySelector('#input-body');
+    console.log(title)
+    fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+            title: title.value,
+            body: body.value
+        }),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+    }) .then((response) => response.json())
+        .then((json) => console.log(json))
+        .catch(err => console.log(err));
+    // alert('kl');
+    getPost('default');
+};
 
 
 
@@ -75,16 +91,17 @@ const getPost = async (mode) => {
     ).then(data => post = data);
     await fetch(`https://jsonplaceholder.typicode.com/users/${authorId}`).then(res =>  res.json()
     ).then(data => author = data);
-    console.log(author.name);
     console.log(post);
 
-    mode === 'redact'?
-
-    postPage.innerHTML = `
+    if (mode === 'redact'){
+        const save = document.createElement('button');
+        save.textContent = 'Save';
+        save.addEventListener('click', () =>savePost());
+        postPage.innerHTML = `
         <div class="postPage-left">
-         <textarea class="postPage-left__textarea" cols="30" rows="10">${post.title}</textarea>
+         <textarea id="input-title" class="postPage-left__textarea" cols="30" rows="10">${post.title}</textarea>
                 <h2 class="postPage-title postPage-left-title">${post.title}</h2>
-                <textarea class="postPage-left__textarea" cols="30" rows="10">${post.body}</textarea>
+                <textarea id="input-body" class="postPage-left__textarea" cols="30" rows="10">${post.body}</textarea>
                 <h3 class="postPage-left-text">${post.body}</h3>
         </div>
         <div class="postPage-right">
@@ -97,9 +114,9 @@ const getPost = async (mode) => {
             <p class="postPage-right-site">${author.website}</p>
             <p class="postPage-right-phone">${author.phone}</p>
         </div>
-   
-    `
-        :
+    `;
+        postPage.append(save)
+    } else {
         postPage.innerHTML = `
         <div class="postPage-left">
                 <h2 class="postPage-title postPage-left-title">${post.title}</h2>
@@ -115,8 +132,9 @@ const getPost = async (mode) => {
             <p class="postPage-right-site">${author.website}</p>
             <p class="postPage-right-phone">${author.phone}</p>
         </div>
-   
     `
+    }
+
 
 
 

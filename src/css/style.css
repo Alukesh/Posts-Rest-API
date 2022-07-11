@@ -65,6 +65,11 @@ main{
     transform: translateY(-50%);
     background-color: #fff;
     border-radius: 50%;
+    transition: all .5s;
+}
+.post-top-icon:hover {
+    transform: scale(1.02) translateY(-30%);
+    background-color: #363A45;
 }
 .top-pen{
     right: 18%;
@@ -85,7 +90,7 @@ main{
 .postPage-right{
     width: 40%;
     padding: 10px 10px 10px 50px;
-    height: 80vh;
+    height: 60vh;
     border-left: 3px solid black;
 }
 .postPage-title{
