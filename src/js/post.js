@@ -5,7 +5,8 @@ const form = document.querySelector('.header-under__form');
 const postsList = document.querySelector('.postList');
 let posts = [];
 let searchPosts = [];
-const redact = document.querySelector('.top-pen');
+const redact = document.querySelector('.top-pen');//redact click func at the very bottom
+const deleteBtn = document.querySelector('.top-del');
 let post ;
 let author ;
 
@@ -77,12 +78,20 @@ const savePost = () =>{
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
         },
-    }) .then((response) => response.json())
+    })
+        .then((response) => alert('change status' + response.status))
+        .then((response) => response.json())
         .then((json) => console.log(json))
         .catch(err => console.log(err));
     // alert('kl');
     getPost('default');
 };
+const deletePost = (id) =>{
+    fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+        method: 'DELETE'
+    }).then(res => alert(`post${id} delete status :${res.status}`)).catch(err => console.log(err));
+};
+
 
 
 
@@ -96,6 +105,7 @@ const getPost = async (mode) => {
     if (mode === 'redact'){
         const save = document.createElement('button');
         save.textContent = 'Save';
+        save.classList.add('postPage-save');
         save.addEventListener('click', () =>savePost());
         postPage.innerHTML = `
         <div class="postPage-left">
@@ -141,3 +151,4 @@ const getPost = async (mode) => {
 };
 getPost('default');
 redact.addEventListener('click' , () => getPost('redact'));
+deleteBtn.addEventListener('click', () => deletePost(post.id))

@@ -5,11 +5,11 @@ const form = document.querySelector('.header-under__form');
 let posts = [];
 let searchPosts = [];
 
-// const deletePost = (id) =>{
-//     fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
-//         method: 'DELETE'
-//     }).then(res => console.log(`post${id} deleted`)).catch(err => console.log(err));
-// };
+const deletePost = (id) =>{
+    fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+        method: 'DELETE'
+    }).then(res => alert(`post${id} delete status :${res.status}`)).catch(err => console.log(err));
+};
 
 
 let authors;
@@ -27,7 +27,7 @@ let showPosts = (arr) =>{
         pen.addEventListener('click' , () => alert('ho'));
         const delBtn = document.createElement('div');
         delBtn.innerText = 'delete';
-        delBtn.addEventListener('click', () =>{})
+        delBtn.addEventListener('click', () =>{deletePost(post.id)})
         div.innerHTML = `
             <a class="postBlock-link" href="./post.html">
                 <h2>${post.title}</h2>

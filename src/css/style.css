@@ -93,6 +93,17 @@ main{
     height: 60vh;
     border-left: 3px solid black;
 }
+.postPage-save{
+    background-color: lemonchiffon ;
+    font-size: 17px;
+    border: 1px solid black;
+    align-self: start;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+.postPage-save:hover {
+    background-color: navajowhite;
+}
 .postPage-title{
     font-size: 45px;
     text-align: center;
